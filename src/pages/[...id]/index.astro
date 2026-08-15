@@ -1,0 +1,56 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('posts', ({ data }) => !data.draft);
+	return posts.map((post) => ({
+		params: { id: post.id },
+		props: { post },
+	}));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<BaseLayout title={post.data.title} description={post.data.description}>
+	<article>
+		<h1>{post.data.title}</h1>
+		<p class="post-meta">
+			{post.data.pubDate.toLocaleDateString('pl-PL', { day: 'numeric', month: 'long', year: 'numeric' })}
+		</p>
+		<div class="post-body">
+			<Content />
+		</div>
+	</article>
+	<p><a href="/">&larr; Wszystkie posty</a></p>
+</BaseLayout>
+
+<style>
+	.post-meta {
+		color: var(--muted);
+		font-size: 0.85rem;
+		margin: 0.5rem 0 2rem;
+	}
+
+	.post-body :global(p) {
+		margin: 0 0 1.25rem;
+	}
+
+	.post-body :global(h2) {
+		margin-top: 2.5rem;
+	}
+
+	.post-body :global(pre) {
+		padding: 1rem;
+		overflow-x: auto;
+		border-radius: 6px;
+		background: color-mix(in srgb, var(--fg) 5%, var(--bg));
+	}
+
+	.post-body :global(code) {
+		font-family: 'SF Mono', Consolas, monospace;
+		font-size: 0.9em;
+	}
+</style>
