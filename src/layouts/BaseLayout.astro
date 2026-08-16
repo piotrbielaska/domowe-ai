@@ -7,9 +7,10 @@ interface Props {
 	title: string;
 	description?: string;
 	hideHeader?: boolean;
+	flushTop?: boolean;
 }
 
-const { title, description = 'Domowe AI — buduję narzędzia dla rodziny z pomocą AI i pokazuję jak to zrobić samemu.', hideHeader = false } = Astro.props;
+const { title, description = 'Domowe AI — buduję narzędzia dla rodziny z pomocą AI i pokazuję jak to zrobić samemu.', hideHeader = false, flushTop = false } = Astro.props;
 ---
 
 <html lang="pl">
@@ -30,7 +31,7 @@ const { title, description = 'Domowe AI — buduję narzędzia dla rodziny z pom
 				</nav>
 			</div>
 		</header>
-		<main>
+		<main class:list={[{ 'flush-top': flushTop }]}>
 			<slot />
 		</main>
 		<footer class="site-footer">
@@ -125,6 +126,10 @@ const { title, description = 'Domowe AI — buduję narzędzia dla rodziny z pom
 		max-width: var(--max-width);
 		margin: 0 auto;
 		padding: 2rem 1.25rem 4rem;
+	}
+
+	main.flush-top {
+		padding-top: 0;
 	}
 
 	a {
