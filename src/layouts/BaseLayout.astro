@@ -6,9 +6,10 @@ import '@fontsource/josefin-sans/700.css';
 interface Props {
 	title: string;
 	description?: string;
+	hideHeader?: boolean;
 }
 
-const { title, description = 'Domowe AI — buduję narzędzia dla rodziny z pomocą AI i pokazuję jak to zrobić samemu.' } = Astro.props;
+const { title, description = 'Domowe AI — buduję narzędzia dla rodziny z pomocą AI i pokazuję jak to zrobić samemu.', hideHeader = false } = Astro.props;
 ---
 
 <html lang="pl">
@@ -21,7 +22,7 @@ const { title, description = 'Domowe AI — buduję narzędzia dla rodziny z pom
 		<title>{title} · Domowe AI</title>
 	</head>
 	<body>
-		<header class="site-header">
+		<header class="site-header" class:list={[{ 'is-hidden': hideHeader }]}>
 			<div class="header-inner">
 				<a href="/" class="brand">DOMOWE <span class="brand-accent">AI</span></a>
 				<nav class="site-nav">
@@ -50,6 +51,7 @@ const { title, description = 'Domowe AI — buduję narzędzia dla rodziny z pom
 		--max-width: 700px;
 		--font-display: 'Josefin Sans', -apple-system, sans-serif;
 		--font-mono: 'SF Mono', Consolas, monospace;
+		--brand-gradient: linear-gradient(90deg, #e8836a 0%, #be0101 45%, #3acf45 100%);
 	}
 
 	* {
@@ -71,6 +73,10 @@ const { title, description = 'Domowe AI — buduję narzędzia dla rodziny z pom
 		border-bottom: 1px solid var(--border);
 	}
 
+	.site-header.is-hidden {
+		display: none;
+	}
+
 	.header-inner {
 		display: flex;
 		align-items: baseline;
@@ -89,7 +95,11 @@ const { title, description = 'Domowe AI — buduję narzędzia dla rodziny z pom
 	}
 
 	.brand-accent {
-		color: var(--accent);
+		background: var(--brand-gradient);
+		background-clip: text;
+		-webkit-background-clip: text;
+		color: transparent;
+		-webkit-text-fill-color: transparent;
 	}
 
 	.site-nav a {
