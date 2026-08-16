@@ -1,21 +1,37 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import HeroArt from '../components/HeroArt.astro';
 
 const allPosts = await getCollection('posts', ({ data }) => !data.draft);
 const posts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const variants = ['dom', 'siec', 'dane'] as const;
 ---
 
 <BaseLayout title="Strona główna">
+	<div class="home-hero">
+		<img src="/hero/test-osoba-wzgorza-16x9.jpg" alt="Domowe AI" />
+		<div class="home-hero-overlay">
+			<h1>Domowe AI</h1>
+			<p>Buduję narzędzia dla rodziny z pomocą AI — i pokazuję jak to zrobić samemu.</p>
+		</div>
+	</div>
 	<ul class="post-list">
 		{
-			posts.map((post) => (
+			posts.map((post, i) => (
 				<li>
-					<a href={`/${post.id}/`}>{post.data.title}</a>
-					<p class="post-meta">
-						{post.data.pubDate.toLocaleDateString('pl-PL', { day: 'numeric', month: 'long', year: 'numeric' })}
-					</p>
-					<p class="post-description">{post.data.description}</p>
+					<a href={`/${post.id}/`} class="post-card">
+						<div class="post-thumb">
+							<HeroArt variant={variants[i % variants.length]} />
+						</div>
+						<div class="post-info">
+							<p class="post-meta">
+								{post.data.pubDate.toLocaleDateString('pl-PL', { day: 'numeric', month: 'long', year: 'numeric' })}
+							</p>
+							<h2>{post.data.title}</h2>
+							<p class="post-description">{post.data.description}</p>
+						</div>
+					</a>
 				</li>
 			))
 		}
@@ -24,6 +40,53 @@ const posts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.
 </BaseLayout>
 
 <style>
+	.home-hero {
+		width: 100vw;
+		position: relative;
+		left: 50%;
+		right: 50%;
+		margin-left: -50vw;
+		margin-right: -50vw;
+		margin-bottom: 3rem;
+		max-height: 60vh;
+		overflow: hidden;
+		border-bottom: 2px solid var(--accent);
+	}
+
+	.home-hero img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		max-height: 60vh;
+		object-fit: cover;
+		object-position: center;
+	}
+
+	.home-hero-overlay {
+		position: absolute;
+		inset: 0;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: flex-end;
+		text-align: center;
+		padding: 2rem 1.5rem;
+		background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.15) 55%, rgba(0, 0, 0, 0.75) 100%);
+	}
+
+	.home-hero-overlay h1 {
+		margin: 0 0 0.6rem;
+		font-size: 2.4rem;
+		letter-spacing: 0.05em;
+	}
+
+	.home-hero-overlay p {
+		margin: 0;
+		max-width: 32rem;
+		font-size: 1rem;
+		color: var(--fg);
+	}
+
 	.post-list {
 		list-style: none;
 		margin: 0;
@@ -31,33 +94,45 @@ const posts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.
 	}
 
 	.post-list li {
-		margin-bottom: 2rem;
-		padding-bottom: 2rem;
-		border-bottom: 1px solid var(--border);
+		margin-bottom: 2.5rem;
 	}
 
-	.post-list li:last-child {
-		border-bottom: none;
-	}
-
-	.post-list a {
-		font-size: 1.25rem;
-		font-weight: 600;
+	.post-card {
+		display: block;
 		text-decoration: none;
+		color: var(--fg);
+		border: 1px solid var(--border);
 	}
 
-	.post-list a:hover {
-		text-decoration: underline;
+	.post-card:hover {
+		border-color: var(--accent);
+	}
+
+	.post-thumb {
+		border-bottom: 2px solid var(--accent);
+		line-height: 0;
+	}
+
+	.post-info {
+		padding: 1.25rem 1.5rem 1.5rem;
 	}
 
 	.post-meta {
 		color: var(--muted);
-		font-size: 0.85rem;
-		margin: 0.35rem 0 0.5rem;
+		font-size: 0.75rem;
+		font-family: 'SF Mono', Consolas, monospace;
+		letter-spacing: 0.05em;
+		text-transform: uppercase;
+		margin: 0 0 0.6rem;
+	}
+
+	.post-card h2 {
+		font-size: 1.3rem;
+		margin: 0 0 0.6rem;
 	}
 
 	.post-description {
 		margin: 0;
-		color: var(--fg);
+		color: var(--muted);
 	}
 </style>

@@ -1,0 +1,73 @@
+---
+interface Props {
+	variant?: 'dom' | 'siec' | 'dane';
+}
+
+const { variant = 'dom' } = Astro.props;
+---
+
+{
+	variant === 'dom' && (
+		<svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustracja domu z sygnałem sieciowym w stylu retro-HUD">
+			<rect width="800" height="450" fill="#000000" />
+			<circle cx="400" cy="180" r="140" fill="#ea8f21" opacity="0.9" />
+			<circle cx="400" cy="180" r="140" fill="none" stroke="#000000" stroke-width="2" />
+			{[0, 1, 2, 3].map((i) => (
+				<circle cx="400" cy="180" r={60 + i * 40} fill="none" stroke="#54cec8" stroke-width="1.5" opacity={0.5 - i * 0.1} />
+			))}
+			<polygon points="220,450 400,220 580,450" fill="#101010" />
+			<polygon points="260,450 400,260 540,450" fill="#000000" />
+			<rect x="370" y="360" width="60" height="90" fill="#54cec8" />
+			<rect x="270" y="390" width="50" height="60" fill="#0a0a0a" stroke="#54cec8" stroke-width="2" />
+			<rect x="480" y="390" width="50" height="60" fill="#0a0a0a" stroke="#54cec8" stroke-width="2" />
+			<line x1="0" y1="450" x2="800" y2="450" stroke="#3acf45" stroke-width="3" />
+			{Array.from({ length: 17 }).map((_, i) => (
+				<line x1={i * 50} y1="450" x2={i * 50} y2="440" stroke="#3acf45" stroke-width="2" />
+			))}
+		</svg>
+	)
+}
+
+{
+	variant === 'siec' && (
+		<svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustracja sieci węzłów w stylu retro-HUD">
+			<rect width="800" height="450" fill="#000000" />
+			<circle cx="400" cy="225" r="36" fill="#ea8f21" />
+			{[
+				[150, 100],
+				[650, 100],
+				[150, 350],
+				[650, 350],
+				[400, 60],
+				[400, 390],
+			].map(([x, y]) => (
+				<line x1="400" y1="225" x2={x} y2={y} stroke="#54cec8" stroke-width="2" />
+			))}
+			{[
+				[150, 100],
+				[650, 100],
+				[150, 350],
+				[650, 350],
+				[400, 60],
+				[400, 390],
+			].map(([x, y]) => (
+				<circle cx={x} cy={y} r="18" fill="#101010" stroke="#54cec8" stroke-width="2" />
+			))}
+			<line x1="0" y1="450" x2="800" y2="450" stroke="#3acf45" stroke-width="3" />
+		</svg>
+	)
+}
+
+{
+	variant === 'dane' && (
+		<svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustracja warstw danych w stylu retro-HUD">
+			<rect width="800" height="450" fill="#000000" />
+			<ellipse cx="400" cy="150" rx="220" ry="50" fill="#54cec8" />
+			<ellipse cx="400" cy="230" rx="220" ry="50" fill="#101010" stroke="#54cec8" stroke-width="2" />
+			<ellipse cx="400" cy="310" rx="220" ry="50" fill="#ea8f21" opacity="0.85" />
+			<line x1="180" y1="150" x2="180" y2="310" stroke="#7c8794" stroke-width="1.5" />
+			<line x1="620" y1="150" x2="620" y2="310" stroke="#7c8794" stroke-width="1.5" />
+			<line x1="0" y1="420" x2="800" y2="420" stroke="#3acf45" stroke-width="3" />
+		</svg>
+	)
+}

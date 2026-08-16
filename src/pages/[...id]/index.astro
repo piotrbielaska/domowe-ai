@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import HeroArt from '../../components/HeroArt.astro';
 
 export async function getStaticPaths() {
 	const posts = await getCollection('posts', ({ data }) => !data.draft);
@@ -15,11 +16,14 @@ const { Content } = await render(post);
 ---
 
 <BaseLayout title={post.data.title} description={post.data.description}>
+	<div class="hero-wrap">
+		<img src="/hero/test-osoba-wzgorza-16x9.jpg" alt="Test hero — osoba i wzgórza, 16:9" />
+	</div>
 	<article>
-		<h1>{post.data.title}</h1>
 		<p class="post-meta">
 			{post.data.pubDate.toLocaleDateString('pl-PL', { day: 'numeric', month: 'long', year: 'numeric' })}
 		</p>
+		<h1>{post.data.title}</h1>
 		<div class="post-body">
 			<Content />
 		</div>
@@ -28,10 +32,40 @@ const { Content } = await render(post);
 </BaseLayout>
 
 <style>
+	.hero-wrap {
+		width: 100vw;
+		position: relative;
+		left: 50%;
+		right: 50%;
+		margin-left: -50vw;
+		margin-right: -50vw;
+		margin-bottom: 2.5rem;
+		border-bottom: 2px solid var(--accent);
+		max-height: 70vh;
+		overflow: hidden;
+	}
+
+	.hero-wrap :global(svg),
+	.hero-wrap :global(img) {
+		display: block;
+		width: 100%;
+		height: 100%;
+		max-height: 70vh;
+		object-fit: cover;
+		object-position: center;
+	}
+
 	.post-meta {
 		color: var(--muted);
-		font-size: 0.85rem;
-		margin: 0.5rem 0 2rem;
+		font-size: 0.8rem;
+		font-family: 'SF Mono', Consolas, monospace;
+		letter-spacing: 0.05em;
+		text-transform: uppercase;
+		margin: 0 0 0.5rem;
+	}
+
+	h1 {
+		margin: 0 0 2rem;
 	}
 
 	.post-body :global(p) {
@@ -45,12 +79,29 @@ const { Content } = await render(post);
 	.post-body :global(pre) {
 		padding: 1rem;
 		overflow-x: auto;
-		border-radius: 6px;
+		white-space: pre-wrap;
+		word-break: break-word;
+		border-radius: 0;
+		border-left: 3px solid var(--accent);
 		background: color-mix(in srgb, var(--fg) 5%, var(--bg));
 	}
 
 	.post-body :global(code) {
 		font-family: 'SF Mono', Consolas, monospace;
 		font-size: 0.9em;
+	}
+
+	.post-body :global(blockquote) {
+		margin: 1.5rem 0;
+		padding: 0.5rem 0 0.5rem 1.25rem;
+		border-left: 3px solid var(--accent);
+		color: var(--muted);
+	}
+
+	.post-body :global(img) {
+		max-width: 100%;
+		height: auto;
+		display: block;
+		margin: 1.5rem 0;
 	}
 </style>
