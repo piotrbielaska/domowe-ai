@@ -17,7 +17,13 @@ const { Content } = await render(post);
 
 <BaseLayout title={post.data.title} description={post.data.description}>
 	<div class="hero-wrap">
-		<img src="/hero/test-osoba-wzgorza-16x9.jpg" alt="Test hero — osoba i wzgórza, 16:9" />
+		{
+			post.data.heroImage ? (
+				<img src={post.data.heroImage} alt={post.data.title} />
+			) : (
+				<HeroArt variant="dom" />
+			)
+		}
 	</div>
 	<article>
 		<p class="post-meta">

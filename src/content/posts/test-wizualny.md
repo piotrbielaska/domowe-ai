@@ -3,7 +3,7 @@ title: "Test wizualny: jak wygląda typografia, obrazki i kod"
 description: "Wpis testowy do sprawdzenia stylu strony — nagłówki, obrazki, cytaty, listy, blok kodu. Nie jest to prawdziwy artykuł."
 pubDate: 2026-08-15
 draft: true
-
+heroImage: "/hero/test-osoba-wzgorza-16x9.jpg"
 ---
 
 To jest akapit wprowadzający. Sprawdzamy jak wygląda zwykły tekst — długość linii, odstępy między wierszami, kontrast na tle. Ten fragment powinien być wystarczająco długi, żeby zobaczyć zawijanie tekstu na kilku liniach i ocenić czy czyta się wygodnie.
